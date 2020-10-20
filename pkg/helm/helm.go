@@ -140,14 +140,6 @@ func (h *Helm) getReleasesVersionThree() error {
 		return err
 	}
 	for _, release := range list {
-		deployed, err := helmClient.Deployed(release.Name)
-		if err != nil {
-			klog.Infof("cannot determine most recent deployed for %s/%s - %s", release.Namespace, release.Name, err)
-			continue
-		}
-		if release.Version != deployed.Version {
-			continue
-		}
 		rel, err := helmToRelease(release)
 		if err != nil {
 			return fmt.Errorf("error converting helm release '%s/%s' to internal object\n   %w", release.Namespace, release.Name, err)
